@@ -1,7 +1,7 @@
 # project/server/main/views.py
 
 
-from flask import render_template, Blueprint, jsonify, request, redirect, \
+from flask import render_template, Blueprint, request, redirect, \
     url_for, flash
 from flask_login import login_required, current_user
 
