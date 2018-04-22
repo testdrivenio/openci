@@ -1,0 +1,49 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div>
+
+  <h1>Build History for <em>{{name}}</em></h1>
+  <hr><br><br>
+
+    <div class="row">
+      <div class="col-sm-7">
+
+        <p><a href="/" class="btn btn-success">Home</a></p>
+
+        <!-- display build history -->
+        {% if build_history %}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Datetime</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for history in build_history|sort(attribute='datetime',reverse = True) %}
+                <tr>
+                  <td>
+                    {% if history.status %}
+                      <i class="fas fa-times fa-lg build-pass"></i>
+                    {% else %}
+                      <i class="fas fa-check fa-lg build-fail"></i>
+                    {% endif %}
+                  </td>
+                  <td>{{ history.datetime  }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>No builds yet!</p>
+        {% endif %}
+
+      </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

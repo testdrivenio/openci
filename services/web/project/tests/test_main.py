@@ -12,7 +12,7 @@ class TestMainBlueprint(BaseTestCase):
         # Ensure Flask is setup.
         response = self.client.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Projects', response.data)
+        self.assertNotIn(b'Projects', response.data)
         self.assertIn(b'Login', response.data)
 
     def test_about(self):

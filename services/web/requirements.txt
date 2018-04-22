@@ -10,3 +10,6 @@ Flask-SQLAlchemy==2.3.2
 Flask-Testing==0.7.1
 Flask-WTF==0.14.2
 psycopg2==2.7.3.2
+redis==2.10.6
+requests==2.18.4
+rq==0.10.0

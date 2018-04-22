@@ -1,0 +1,13 @@
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  ping:
+    lang: dockerfile
+    handler: ./services/ping
+    image: functions/openfaas-ping:latest
+  eval:
+    lang: dockerfile
+    handler: ./services/eval
+    image: functions/openfaas-eval:latest

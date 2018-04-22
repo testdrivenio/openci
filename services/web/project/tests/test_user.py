@@ -1,7 +1,6 @@
 # project/server/tests/test_user.py
 
 
-import datetime
 import unittest
 
 from flask_login import current_user
@@ -24,7 +23,7 @@ class TestUserBlueprint(BaseTestCase):
             )
             self.assertIn(b'Welcome', response.data)
             self.assertIn(b'Logout', response.data)
-            self.assertIn(b'Members', response.data)
+            self.assertIn(b'Projects', response.data)
             self.assertTrue(current_user.email == "ad@min.com")
             self.assertTrue(current_user.is_active())
             self.assertEqual(response.status_code, 200)
@@ -98,7 +97,7 @@ class TestUserBlueprint(BaseTestCase):
                           confirm="testing"),
                 follow_redirects=True
             )
-            self.assertIn(b'Welcome', response.data)
+            self.assertIn(b'Projects', response.data)
             self.assertTrue(current_user.email == "test@tester.com")
             self.assertTrue(current_user.is_active())
             self.assertEqual(response.status_code, 200)
