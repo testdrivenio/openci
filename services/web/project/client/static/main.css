@@ -1,0 +1,19 @@
+/*
+global
+ */
+
+.site-content {
+  padding-top: 6rem;
+}
+
+/*
+table
+ */
+
+.build-fail {
+  color: red;
+}
+
+.build-pass {
+  color: green;
+}

@@ -1,0 +1,82 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<div>
+
+  <h1>Projects</h1>
+  <hr><br><br>
+
+    <div class="row">
+      <div class="col-sm-7">
+
+        <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-project-modal">Add Project</button></p>
+
+        <!-- display projects -->
+        {% if projects %}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Project Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for project in projects %}
+                <tr>
+                  <td><a href="{{ project.url }}">{{ project.name }}</a></td>
+                  <td>
+                    {% if project.status %}
+                      <i class="fas fa-times fa-lg build-pass"></i>
+                    {% else %}
+                      <i class="fas fa-check fa-lg build-fail"></i>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-primary btn-sm">Run Build</button>
+                    <a href="/projects/delete/{{ project.id }}" class="btn btn-danger btn-sm delete-project">Delete Project</button>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>No projects! Add one.</p>
+        {% endif %}
+
+      </div>
+    </div>
+
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="add-project-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add a new project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="add-project-form" action="/projects" method="POST">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" id="add-project-form-name" placeholder="Enter a project name" required>
+          </div>
+          <div class="form-group">
+            <label for="url">URL</label>
+            <input type="url" class="form-control" name="url" id="add-project-form-url" placeholder="Enter a URL" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

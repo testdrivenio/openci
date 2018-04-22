@@ -1,0 +1,4 @@
+CREATE DATABASE web_prod;
+CREATE DATABASE web_stage;
+CREATE DATABASE web_dev;
+CREATE DATABASE web_test;
