@@ -4,13 +4,15 @@
 import sys
 import subprocess
 import unittest
+from datetime import datetime
 
+import redis
+from rq import Connection, Worker
 import coverage
-
 from flask.cli import FlaskGroup
 
 from project.server import create_app, db
-from project.server.models import User, Project
+from project.server.models import User, Project, Build
 
 
 app = create_app()
@@ -51,13 +53,24 @@ def create_admin():
 
 @cli.command()
 def create_data():
-    """Creates a user and adds a project."""
+    """Creates a user, project, and build."""
     user = User(email='michael@mherman.org', password='herman')
     db.session.add(user)
     db.session.commit()
-    db.session.add(Project(user_id=user.id, name='test', url='test'))
-    db.session.add(Project(
-        user_id=user.id, name='test2', url='test2', status=True))
+    project = Project(
+        user_id=user.id,
+        name='pycon-sample',
+        url='https://github.com/testdrivenio/pycon-sample'
+    )
+    db.session.add(project)
+    db.session.commit()
+    db.session.add(
+        Build(
+            project_id=project.id,
+            status=False,
+            datetime=datetime.today().strftime('%d-%m-%Y %H:%M:%S')
+        )
+    )
     db.session.commit()
 
 
@@ -93,6 +106,15 @@ def cov():
 def flake():
     """Runs flake8 on the project."""
     subprocess.run(['flake8', 'project'])
+
+
+@cli.command()
+def run_worker():
+    redis_url = app.config['REDIS_URL']
+    redis_connection = redis.from_url(redis_url)
+    with Connection(redis_connection):
+        worker = Worker(app.config['QUEUES'])
+        worker.work()
 
 
 if __name__ == '__main__':

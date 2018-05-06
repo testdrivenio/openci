@@ -13,6 +13,9 @@ class BaseConfig(object):
     SECRET_KEY = os.getenv('SECRET_KEY', default='my_precious')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WTF_CSRF_ENABLED = False
+    OPENFAAS_URL = os.environ.get('OPENFAAS_URL')
+    REDIS_URL = 'redis://web-redis:6379/0'
+    QUEUES = ['default']
 
 
 class DevelopmentConfig(BaseConfig):

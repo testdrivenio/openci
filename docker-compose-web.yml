@@ -1,0 +1,60 @@
+version: '3.5'
+
+services:
+
+  web:
+    image: web
+    build:
+      context: ./services/web
+      dockerfile: Dockerfile
+    volumes:
+      - './services/web:/usr/src/app'
+    ports:
+      - 5002:5000
+    environment:
+      - APP_NAME=OpenCI
+      - FLASK_DEBUG=1
+      - PYTHONUNBUFFERED=0
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@web-db:5432/web_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@web-db:5432/web_test
+      - SECRET_KEY=change_me_in_prod
+      - OPENFAAS_URL=http://104.131.75.55
+    depends_on:
+      - web-db
+
+  web-db:
+    image: web-db
+    build:
+      context: ./services/db
+      dockerfile: Dockerfile
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  web-nginx:
+    image: web-nginx
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+  web-worker:
+    image: web
+    volumes:
+      - ./services/web:/usr/src/app
+    environment:
+      - APP_SETTINGS=project.config.DevelopmentConfig
+    depends_on:
+      - web-redis
+      - web
+    command: python manage.py run_worker
+
+  web-redis:
+    image: redis:3.2.11
