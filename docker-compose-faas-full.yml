@@ -176,20 +176,6 @@ services:
         constraints:
           - 'node.platform.os == linux'
 
-  hook:
-    image: python-hook:latest
-    labels:
-      function: 'true'
-    networks:
-      - functions
-    environment:
-      no_proxy: 'gateway'
-      https_proxy: $https_proxy
-    deploy:
-      placement:
-        constraints:
-          - 'node.platform.os == linux'
-
 configs:
   prometheus_config:
     file: ./functions/services/config/prometheus.yml

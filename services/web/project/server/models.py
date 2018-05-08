@@ -52,37 +52,9 @@ class Project(db.Model):
         db.ForeignKey('users.id'),
         nullable=False
     )
-    builds = db.relationship('Build', backref='builds', lazy=True)
 
     def __init__(self, user_id, name, url, status=False):
         self.user_id = user_id
         self.name = name
         self.url = url
         self.status = status
-
-
-class Build(db.Model):
-
-    __tablename__ = 'builds'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    status = db.Column(db.Boolean, nullable=False)
-    datetime = db.Column(db.DateTime, nullable=False)
-    project_id = db.Column(
-        db.Integer,
-        db.ForeignKey('projects.id'),
-        nullable=False
-    )
-
-    def __init__(self, project_id, status, datetime):
-        self.project_id = project_id
-        self.status = status
-        self.datetime = datetime
-
-    def to_json(self):
-        return {
-            'id': self.id,
-            'project_id': self.project_id,
-            'status': self.status,
-            'datetime': self.datetime
-        }

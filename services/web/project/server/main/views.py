@@ -11,7 +11,7 @@ from flask import render_template, Blueprint, request, redirect, \
 from flask_login import login_required, current_user
 
 from project.server import db
-from project.server.models import Project, Build
+from project.server.models import Project
 from project.server.main.tasks import create_task
 
 
@@ -121,15 +121,6 @@ def update_project():
         'message': 'Project updated!'
     }
     return jsonify(response_object)
-
-
-@main_blueprint.route('/projects/history/<int:project_id>', methods=['GET'])
-@login_required
-def get_history(project_id):
-    project = Project.query.filter_by(id=project_id).first_or_404()
-    build_history = Build.query.filter_by(project_id=project_id).all()
-    return render_template(
-        'main/history.html', name=project.name, build_history=build_history)
 
 
 @main_blueprint.route('/about/')

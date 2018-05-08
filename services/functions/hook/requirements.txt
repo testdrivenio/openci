@@ -1,2 +1,0 @@
-gitpython==2.1.9
-requests==2.18.4

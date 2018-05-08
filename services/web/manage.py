@@ -12,7 +12,7 @@ import coverage
 from flask.cli import FlaskGroup
 
 from project.server import create_app, db
-from project.server.models import User, Project, Build
+from project.server.models import User, Project
 
 
 app = create_app()
@@ -63,14 +63,6 @@ def create_data():
         url='https://github.com/testdrivenio/pycon-sample'
     )
     db.session.add(project)
-    db.session.commit()
-    db.session.add(
-        Build(
-            project_id=project.id,
-            status=False,
-            datetime=datetime.today().strftime('%d-%m-%Y %H:%M:%S')
-        )
-    )
     db.session.commit()
 
 
