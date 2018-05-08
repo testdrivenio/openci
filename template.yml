@@ -5,9 +5,11 @@ provider:
 functions:
   ping:
     lang: dockerfile
-    handler: ./services/ping
+    handler: ./services/functions/ping
     image: functions/openfaas-ping:latest
+    imagePullPolicy: IfNotPresent
   eval:
     lang: dockerfile
-    handler: ./services/eval
+    handler: ./services/functions/eval
     image: functions/openfaas-eval:latest
+    imagePullPolicy: IfNotPresent
