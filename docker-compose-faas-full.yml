@@ -161,7 +161,6 @@ services:
         constraints:
           - 'node.platform.os == linux'
 
-
   eval:
     image: python-eval:latest
     labels:
