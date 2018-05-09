@@ -1,9 +1,6 @@
 # project/server/main/views.py
 
 
-import json
-from datetime import datetime
-
 import redis
 from rq import Queue, Connection
 from flask import render_template, Blueprint, request, redirect, \
@@ -89,29 +86,6 @@ def get_status(project_id, task_id):
             db.session.commit()
     else:
         response_object = {'status': 'error'}
-    return jsonify(response_object)
-
-
-@main_blueprint.route('/projects/update', methods=['PUT'])
-def update_project():
-    data = request.get_json()
-    project = Project.query.filter_by(name=data['repo_name']).first()
-    project.status = False
-    if bool(data['status']):
-        project.status = True
-    db.session.commit()
-    db.session.add(
-        Build(
-            project_id=project.id,
-            status=project.status,
-            datetime=datetime.today().strftime('%d-%m-%Y %H:%M:%S')
-        )
-    )
-    db.session.commit()
-    response_object = {
-        'status': 'success',
-        'message': 'Project updated!'
-    }
     return jsonify(response_object)
 
 
