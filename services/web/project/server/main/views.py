@@ -87,14 +87,6 @@ def get_status(project_id, task_id):
             if bool(task.result['status']):
                 project.status = True
             db.session.commit()
-            db.session.add(
-                Build(
-                    project_id=project.id,
-                    status=project.status,
-                    datetime=datetime.today().strftime('%d-%m-%Y %H:%M:%S')
-                )
-            )
-            db.session.commit()
     else:
         response_object = {'status': 'error'}
     return jsonify(response_object)

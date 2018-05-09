@@ -17,7 +17,7 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@web-db:5432/web_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@web-db:5432/web_test
       - SECRET_KEY=change_me_in_prod
-      - OPENFAAS_URL=http://159.65.172.118
+      - OPENFAAS_URL=http://159.203.163.198
     depends_on:
       - web-db
 
